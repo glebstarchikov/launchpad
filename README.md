@@ -1,24 +1,20 @@
 # Launchpad
 
-> Your founder command center, on your own server.
+Launchpad is a self-hosted founder command center for one person. It tracks projects, ideas, revenue, legal compliance, tech debt, and daily activity on a server you run yourself.
 
-[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
-[![Self-host](https://img.shields.io/badge/self--host-Docker%20%7C%20Coolify-2496ed.svg)](#self-host-quickstart-docker)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+![Launchpad projects](docs/screenshots/projects-hero.png)
 
-Track projects, ideas, revenue, legal compliance, tech debt, and daily activity, all in one place. Single-user by design, privacy-first, Docker-ready. Self-host in 10 minutes.
-
-![Launchpad Projects grid](docs/screenshots/projects-hero.png)
+Status: finished, November 2026. The last commit was July 2026.
 
 ## What it does
 
 - **Project pipeline**: stage-aware tracker (idea → building → beta → live → growing → sunset)
 - **Idea inbox**: capture raw ideas before they slip away
 - **MRR tracking**: revenue history with month-over-month scoreboard
-- **Launch checklist**: 80+ curated items by stage and project type (for-profit or open-source)
+- **Launch checklist**: 84 items for a for-profit project, 75 for open source, split by stage
 - **Tech debt tracker**: severity × effort triage
 - **Goals**: numeric targets with progress tracking
-- **Legal compliance**: curated catalog for 12+ countries + EU with LLM-powered review
+- **Legal compliance**: curated catalog for 12 countries and the EU, with an optional LLM review
 - **GitHub integration**: commits, PRs, and issues per project
 - **News feed**: Hacker News + RSS with LLM relevance scoring
 - **Site monitoring**: built-in HTTP pinger, Telegram alerts on down/recovery, no external service
@@ -38,9 +34,9 @@ Track projects, ideas, revenue, legal compliance, tech debt, and daily activity,
 1. **Clone:** `git clone https://github.com/glebstarchikov/Launchpad && cd Launchpad`
 2. **Env:** `cp .env.example .env`, then set `JWT_SECRET` (`openssl rand -hex 32`) and `LAUNCHPAD_USER_EMAIL`
 3. **Up:** `docker compose up -d`
-4. **Visit:** http://localhost:3001, register your user, sign in.
+4. **Visit:** http://localhost:3001
 
-> **Important:** Register your account immediately after the first start. Registration is permanently closed once the first user exists. This is by design for a single-user app.
+Success looks like this: `docker compose ps` shows the container healthy, and http://localhost:3001 is the Launchpad sign-in page. Register on that first visit. Registration closes once a user exists. This is by design for a single-user app.
 
 Data is persisted in Docker volumes (`launchpad_data` for the SQLite DB, `launchpad_uploads` for files).
 
@@ -75,10 +71,11 @@ image: ghcr.io/glebstarchikov/launchpad:latest
 
 ```bash
 bun install
-cp .env.example .env   # edit as needed
+cp .env.example .env   # set JWT_SECRET and LAUNCHPAD_USER_EMAIL
 bun dev
-# Open http://localhost:3001
 ```
+
+Success looks like this: the log prints `Launchpad running at http://localhost:3001`, and that URL shows the sign-in page.
 
 ## Environment variables
 
@@ -156,7 +153,10 @@ docker compose up -d --build
 
 ```bash
 bun test server/tests/
+bun run build
 ```
+
+`bun run build` writes the production client bundle to `client/dist/`. CI runs `bun install --frozen-lockfile`, then those two commands, on every push and pull request. The image publish workflow is separate and still runs only on pushes to `main`.
 
 ## Contributing
 
