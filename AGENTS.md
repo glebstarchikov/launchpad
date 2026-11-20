@@ -35,7 +35,7 @@ Launchpad is a self-hosted project management app for solopreneurs, built as a m
 ```bash
 bun install
 bun dev                                       # concurrent server + tailwind + client bundler
-bun build                                     # production client bundle to client/dist/
+bun run build                                 # production client bundle to client/dist/
 bun test server/tests/
 bunx tsc --noEmit -p server/tsconfig.json
 bunx tsc --noEmit -p client/tsconfig.json

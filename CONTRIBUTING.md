@@ -19,7 +19,7 @@ Run all of these and confirm they pass:
 
 ```bash
 bun test server/tests/
-bun build                              # production client bundle to client/dist/
+bun run build                          # production client bundle to client/dist/
 bunx tsc --noEmit -p server/tsconfig.json
 bunx tsc --noEmit -p client/tsconfig.json
 ```
