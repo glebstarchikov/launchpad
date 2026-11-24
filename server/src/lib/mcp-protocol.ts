@@ -1,6 +1,5 @@
 import type { Database } from "bun:sqlite";
-import { z, type ZodTypeAny } from "zod";
-import { zodToJsonSchema } from "zod-to-json-schema";
+import { z } from "zod";
 import { db as defaultDb } from "../db/index.ts";
 import * as tools from "./mcp-tools.ts";
 import { McpToolError } from "./mcp-tools.ts";
@@ -26,7 +25,7 @@ export interface McpResponse {
 interface ToolDef {
   name: string;
   description: string;
-  inputSchema: ZodTypeAny;
+  inputSchema: z.ZodType;
   // args is typed `any` because each tool has a different Zod-derived shape;
   // dispatchMcpRequest always calls this with `parsed.data` from the tool's own inputSchema.safeParse().
   handler: (args: any, userId: string, db: Database) => unknown | Promise<unknown>;
@@ -174,7 +173,7 @@ export async function dispatchMcpRequest(
       id: req.id,
       result: {
         tools: toolDefs.map((t) => {
-          const schema = zodToJsonSchema(t.inputSchema, { target: "jsonSchema7" }) as Record<string, unknown>;
+          const schema = z.toJSONSchema(t.inputSchema, { target: "draft-07" }) as Record<string, unknown>;
           // Strip the $schema meta-key — MCP tool inputSchema is a plain JSON Schema object,
           // and some clients reject the extra field.
           delete schema.$schema;
