@@ -4,7 +4,7 @@ Launchpad is a self-hosted founder command center for one person. It tracks proj
 
 ![Launchpad projects](docs/screenshots/projects-hero.png)
 
-Status: finished, November 2026. The last commit was July 2026.
+Status: finished, November 2026. Every feature under "What it does" was built in March and April 2026; since then it gets fixes and security patches only.
 
 ## What it does
 
